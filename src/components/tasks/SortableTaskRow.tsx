@@ -24,14 +24,12 @@ export function SortableTaskRow({ task, isDragging = false }: SortableTaskRowPro
   const dragHandle = (
     <Tooltip>
       <TooltipTrigger asChild>
-        <button
-          className="shrink-0 cursor-grab text-muted-foreground hover:text-foreground active:cursor-grabbing"
+        <span
+          className="shrink-0 cursor-grab text-muted-foreground"
           aria-label="Arrastar tarefa"
-          {...attributes}
-          {...listeners}
         >
           <GripVertical className="h-4 w-4" />
-        </button>
+        </span>
       </TooltipTrigger>
       <TooltipContent side="top" className="text-xs">
         Arraste para reordenar
@@ -40,7 +38,7 @@ export function SortableTaskRow({ task, isDragging = false }: SortableTaskRowPro
   )
 
   return (
-    <div ref={setNodeRef} style={style}>
+    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
       <TaskRow task={task} dragHandle={dragHandle} />
     </div>
   )

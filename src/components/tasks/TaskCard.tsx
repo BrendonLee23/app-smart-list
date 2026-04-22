@@ -42,7 +42,11 @@ interface TaskCardProps {
 function DescriptionCell({ description }: { description: string }) {
   const [open, setOpen] = useState(false)
 
-  const truncated = <p className="line-clamp-3 text-sm text-muted-foreground">{description}</p>
+  const truncated = (
+    <p className="line-clamp-3 overflow-hidden break-words text-sm text-muted-foreground">
+      {description}
+    </p>
+  )
 
   return (
     <>
@@ -68,7 +72,7 @@ function DescriptionCell({ description }: { description: string }) {
         </PopoverTrigger>
         <PopoverContent
           side="bottom"
-          className="max-w-xs whitespace-pre-wrap wrap-break-word text-xs"
+          className="max-w-[min(20rem,calc(100vw-2rem))] break-words text-xs"
         >
           {description}
         </PopoverContent>

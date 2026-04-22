@@ -6,6 +6,7 @@ import {
   DndContext,
   closestCenter,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
   DragEndEvent,
@@ -46,7 +47,10 @@ export function TaskList({ viewMode = 'cards' }: { viewMode?: 'cards' | 'list' }
     if (tasks) setOrderedTasks(tasks)
   }, [tasks])
 
-  const sensors = useSensors(useSensor(PointerSensor))
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 250, tolerance: 8 } }),
+  )
 
   if (isLoading) return <LoadingSpinner />
   if (isError) return <ErrorState />
