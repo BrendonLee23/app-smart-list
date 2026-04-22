@@ -285,12 +285,20 @@ Todo código chega à `main` via Pull Request. O CI valida lint, format, testes,
 Se tivesse mais tempo, eu:
 
 - Implementaria **filtros por status** e busca por título diretamente na UI
-- Adicionaria **drag and drop** para reordenar tarefas
 - Criaria tela de **autenticação** integrada ao JWT da API
 - Escreveria testes E2E com Playwright cobrindo o fluxo completo
 - Adicionaria **testes de acessibilidade** (axe-core) no pipeline de CI
-- Implementaria **otimistic updates** nas mutations para UX mais fluida
-- Configuraria **ISR (Incremental Static Regeneration)** ou **Server Actions** para substituir o prefetch manual
+
+**Navegação & estrutura**
+
+- Adicionaria um **header** com menu de opções globais (perfil, configurações, logout)
+- Implementaria uma **sidebar** com navegação entre telas futuras, separando funcionalidades por módulo
+
+**Usuários & autenticação**
+
+- Introduziria a entidade **User**, permitindo listar e separar tarefas por usuário
+- Implementaria **autenticação com níveis de acesso** (admin / usuário comum) integrada ao JWT da API
+- Criaria fluxos de **login, cadastro e troca de senha**
 
 ---
 
