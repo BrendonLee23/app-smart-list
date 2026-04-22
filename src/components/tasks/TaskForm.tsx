@@ -85,6 +85,7 @@ export function TaskForm() {
               {...register('description')}
               placeholder="Digite uma descrição (opcional)"
               rows={3}
+              className="max-h-40 resize-none overflow-y-auto break-all"
             />
             {errors.description && (
               <p className="text-xs text-destructive">{errors.description.message}</p>

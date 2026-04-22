@@ -198,3 +198,8 @@
     @apply font-sans;
   }
 }
+
+body.is-dragging,
+body.is-dragging * {
+  cursor: grabbing !important;
+}

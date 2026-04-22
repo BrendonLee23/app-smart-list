@@ -1,10 +1,14 @@
 'use client'
 
+import { useState } from 'react'
 import { motion, type Variants } from 'framer-motion'
 import { Pencil, Trash2 } from 'lucide-react'
+import React from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Task, TaskStatus } from '@/types/task.types'
 import { useTasksContext } from '@/context/TasksContext'
 
@@ -32,9 +36,48 @@ const cardVariants: Variants = {
 
 interface TaskCardProps {
   task: Task
+  dragHandle?: React.ReactNode
 }
 
-export function TaskCard({ task }: TaskCardProps) {
+function DescriptionCell({ description }: { description: string }) {
+  const [open, setOpen] = useState(false)
+
+  const truncated = <p className="line-clamp-3 text-sm text-muted-foreground">{description}</p>
+
+  return (
+    <>
+      {/* Desktop: tooltip on hover */}
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div className="hidden cursor-default md:block">{truncated}</div>
+        </TooltipTrigger>
+        <TooltipContent
+          side="bottom"
+          className="max-w-xs whitespace-pre-wrap wrap-break-word text-xs"
+        >
+          {description}
+        </TooltipContent>
+      </Tooltip>
+
+      {/* Mobile: popover on tap */}
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <button className="block w-full text-left md:hidden" onClick={() => setOpen(true)}>
+            {truncated}
+          </button>
+        </PopoverTrigger>
+        <PopoverContent
+          side="bottom"
+          className="max-w-xs whitespace-pre-wrap wrap-break-word text-xs"
+        >
+          {description}
+        </PopoverContent>
+      </Popover>
+    </>
+  )
+}
+
+export function TaskCard({ task, dragHandle }: TaskCardProps) {
   const { openEditForm, openDeleteDialog } = useTasksContext()
 
   return (
@@ -44,15 +87,18 @@ export function TaskCard({ task }: TaskCardProps) {
       exit={{ opacity: 0, y: -10, scale: 0.97, transition: { duration: 0.2 } }}
       whileHover={{ y: -2, transition: { duration: 0.15 } }}
     >
-      <Card className="h-full transition-shadow hover:shadow-md">
+      <Card className="flex h-full flex-col transition-shadow hover:shadow-md">
         <CardHeader className="flex flex-row items-start justify-between gap-2 pb-2">
-          <CardTitle className="text-base leading-snug">{task.title}</CardTitle>
+          <div className="flex min-w-0 flex-1 items-center gap-1">
+            {dragHandle}
+            <CardTitle className="text-base leading-snug">{task.title}</CardTitle>
+          </div>
           <Badge variant={statusVariant[task.status]}>{statusLabel[task.status]}</Badge>
         </CardHeader>
-        <CardContent className="flex flex-col gap-3">
-          {task.description && (
-            <p className="line-clamp-3 text-sm text-muted-foreground">{task.description}</p>
-          )}
+        <CardContent className="flex flex-1 flex-col gap-3">
+          <div className="flex-1">
+            {task.description && <DescriptionCell description={task.description} />}
+          </div>
           <div className="flex justify-end gap-2">
             <Button
               size="sm"

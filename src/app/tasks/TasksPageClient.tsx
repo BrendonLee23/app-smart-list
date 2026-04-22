@@ -1,7 +1,8 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Plus } from 'lucide-react'
+import { Plus, LayoutGrid, List } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { TaskList } from '@/components/tasks/TaskList'
 import { TaskForm } from '@/components/tasks/TaskForm'
@@ -10,8 +11,11 @@ import { useTasksContext } from '@/context/TasksContext'
 import { ThemeToggle } from '@/components/shared/ThemeToggle'
 import { FullscreenToggle } from '@/components/shared/FullscreenToggle'
 
+type ViewMode = 'cards' | 'list'
+
 export function TasksPageClient() {
   const { openCreateForm } = useTasksContext()
+  const [viewMode, setViewMode] = useState<ViewMode>('cards')
 
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-6 sm:px-6 sm:py-10">
@@ -27,8 +31,22 @@ export function TasksPageClient() {
         </div>
 
         <div className="flex shrink-0 items-center gap-1">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setViewMode((v) => (v === 'cards' ? 'list' : 'cards'))}
+            aria-label={viewMode === 'cards' ? 'Mudar para lista' : 'Mudar para cards'}
+          >
+            {viewMode === 'cards' ? (
+              <List className="h-4 w-4" />
+            ) : (
+              <LayoutGrid className="h-4 w-4" />
+            )}
+          </Button>
           <ThemeToggle />
-          <FullscreenToggle />
+          <div className="hidden md:block">
+            <FullscreenToggle />
+          </div>
           <Button onClick={openCreateForm} className="ml-1 sm:ml-2">
             <Plus className="h-4 w-4 sm:mr-2" />
             <span className="hidden sm:inline">Nova tarefa</span>
@@ -41,7 +59,7 @@ export function TasksPageClient() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: 'easeOut', delay: 0.15 }}
       >
-        <TaskList />
+        <TaskList viewMode={viewMode} />
       </motion.div>
 
       <TaskForm />

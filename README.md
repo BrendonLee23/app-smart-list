@@ -12,21 +12,21 @@ Construir um frontend moderno com Next.js aproveitando SSR para a carga inicial 
 
 ## Tecnologias
 
-| Camada | Tecnologia |
-|---|---|
-| Framework | Next.js 16 (App Router) |
-| Linguagem | TypeScript (strict) |
-| Estilização | Tailwind CSS v4 + ShadCN UI |
-| Estado de servidor | TanStack Query v5 |
-| Formulários | React Hook Form + Zod |
-| Animações | Framer Motion |
-| HTTP Client | Axios |
-| Notificações | React Hot Toast |
-| Testes | Jest + Testing Library |
-| Linting | ESLint + Prettier |
-| Hooks | Husky v9 |
-| CI/CD | GitHub Actions |
-| Deploy | Vercel |
+| Camada             | Tecnologia                  |
+| ------------------ | --------------------------- |
+| Framework          | Next.js 16 (App Router)     |
+| Linguagem          | TypeScript (strict)         |
+| Estilização        | Tailwind CSS v4 + ShadCN UI |
+| Estado de servidor | TanStack Query v5           |
+| Formulários        | React Hook Form + Zod       |
+| Animações          | Framer Motion               |
+| HTTP Client        | Axios                       |
+| Notificações       | React Hot Toast             |
+| Testes             | Jest + Testing Library      |
+| Linting            | ESLint + Prettier           |
+| Hooks              | Husky v9                    |
+| CI/CD              | GitHub Actions              |
+| Deploy             | Vercel                      |
 
 ## Arquitetura
 
@@ -55,7 +55,7 @@ export default async function TasksPage() {
 
   await queryClient.prefetchQuery({
     queryKey: ['tasks'],
-    queryFn: prefetchTasks,       // fetch nativo → api-smart-list/tasks
+    queryFn: prefetchTasks, // fetch nativo → api-smart-list/tasks
   })
 
   return (
@@ -90,8 +90,8 @@ Crie um `.env.local` na raiz:
 NEXT_PUBLIC_API_URL="http://localhost:3333"
 ```
 
-| Variável | Descrição |
-|---|---|
+| Variável              | Descrição                                                       |
+| --------------------- | --------------------------------------------------------------- |
 | `NEXT_PUBLIC_API_URL` | URL base da API (exposta ao browser via prefixo `NEXT_PUBLIC_`) |
 
 Em produção, a variável é configurada no painel da Vercel.
@@ -107,16 +107,16 @@ Acesse `http://localhost:3000`.
 
 ## Scripts disponíveis
 
-| Script | Descrição |
-|---|---|
-| `npm run dev` | Inicia em modo desenvolvimento (Turbopack) |
-| `npm run build` | Gera o build de produção |
-| `npm start` | Serve o build de produção |
-| `npm test` | Roda todos os testes |
-| `npm run test:coverage` | Testes com relatório de cobertura |
-| `npm run lint` | Verifica erros de lint |
-| `npm run format` | Formata o código com Prettier |
-| `npm run type-check` | Valida tipos sem compilar |
+| Script                  | Descrição                                  |
+| ----------------------- | ------------------------------------------ |
+| `npm run dev`           | Inicia em modo desenvolvimento (Turbopack) |
+| `npm run build`         | Gera o build de produção                   |
+| `npm start`             | Serve o build de produção                  |
+| `npm test`              | Roda todos os testes                       |
+| `npm run test:coverage` | Testes com relatório de cobertura          |
+| `npm run lint`          | Verifica erros de lint                     |
+| `npm run format`        | Formata o código com Prettier              |
+| `npm run type-check`    | Valida tipos sem compilar                  |
 
 ## Estrutura de pastas
 
@@ -190,12 +190,12 @@ docker run -p 3000:3000 app-smart-list
 - **URL de produção:** `https://api-smart-list.onrender.com`
 - **Configuração:** `src/utils/api.ts` cria uma instância Axios com `baseURL: process.env.NEXT_PUBLIC_API_URL`
 
-| Operação | Método | Endpoint |
-|---|---|---|
-| Listar tarefas | `GET` | `/tasks` |
-| Criar tarefa | `POST` | `/tasks` |
-| Atualizar tarefa | `PUT` | `/tasks/:id` |
-| Deletar tarefa | `DELETE` | `/tasks/:id` |
+| Operação         | Método   | Endpoint     |
+| ---------------- | -------- | ------------ |
+| Listar tarefas   | `GET`    | `/tasks`     |
+| Criar tarefa     | `POST`   | `/tasks`     |
+| Atualizar tarefa | `PUT`    | `/tasks/:id` |
+| Deletar tarefa   | `DELETE` | `/tasks/:id` |
 
 ## Tema dark/light
 
@@ -258,8 +258,8 @@ Hospedado na **Vercel** (plano free).
 
 **Variável de ambiente na Vercel:**
 
-| Variável | Valor |
-|---|---|
+| Variável              | Valor                                 |
+| --------------------- | ------------------------------------- |
 | `NEXT_PUBLIC_API_URL` | `https://api-smart-list.onrender.com` |
 
 ## Padrões de código e convenções
@@ -285,14 +285,21 @@ Todo código chega à `main` via Pull Request. O CI valida lint, format, testes,
 Se tivesse mais tempo, eu:
 
 - Implementaria **filtros por status** e busca por título diretamente na UI
-- Adicionaria **drag and drop** para reordenar tarefas
 - Criaria tela de **autenticação** integrada ao JWT da API
 - Escreveria testes E2E com Playwright cobrindo o fluxo completo
 - Adicionaria **testes de acessibilidade** (axe-core) no pipeline de CI
-- Implementaria **otimistic updates** nas mutations para UX mais fluida
-- Configuraria **ISR (Incremental Static Regeneration)** ou **Server Actions** para substituir o prefetch manual
+
+**Navegação & estrutura**
+
+- Adicionaria um **header** com menu de opções globais (perfil, configurações, logout)
+- Implementaria uma **sidebar** com navegação entre telas futuras, separando funcionalidades por módulo
+
+**Usuários & autenticação**
+
+- Introduziria a entidade **User**, permitindo listar e separar tarefas por usuário
+- Implementaria **autenticação com níveis de acesso** (admin / usuário comum) integrada ao JWT da API
+- Criaria fluxos de **login, cadastro e troca de senha**
 
 ---
 
 Desenvolvido por **Brendo Moreira**
-
