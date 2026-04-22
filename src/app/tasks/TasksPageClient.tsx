@@ -37,7 +37,11 @@ export function TasksPageClient() {
             onClick={() => setViewMode((v) => (v === 'cards' ? 'list' : 'cards'))}
             aria-label={viewMode === 'cards' ? 'Mudar para lista' : 'Mudar para cards'}
           >
-            {viewMode === 'cards' ? <List className="h-4 w-4" /> : <LayoutGrid className="h-4 w-4" />}
+            {viewMode === 'cards' ? (
+              <List className="h-4 w-4" />
+            ) : (
+              <LayoutGrid className="h-4 w-4" />
+            )}
           </Button>
           <ThemeToggle />
           <div className="hidden md:block">

@@ -20,14 +20,14 @@ export function Providers({ children, dehydratedState }: ProvidersProps) {
   return (
     <ThemeProvider>
       <TooltipProvider delayDuration={300}>
-      <QueryClientProvider client={queryClient}>
-        <HydrationBoundary state={dehydratedState}>
-          <TasksProvider>
-            {children}
-            <Toaster position="top-right" />
-          </TasksProvider>
-        </HydrationBoundary>
-      </QueryClientProvider>
+        <QueryClientProvider client={queryClient}>
+          <HydrationBoundary state={dehydratedState}>
+            <TasksProvider>
+              {children}
+              <Toaster position="top-right" />
+            </TasksProvider>
+          </HydrationBoundary>
+        </QueryClientProvider>
       </TooltipProvider>
     </ThemeProvider>
   )
