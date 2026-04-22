@@ -8,7 +8,11 @@ export const createTaskSchema = z.object({
 
 export const updateTaskSchema = z
   .object({
-    title: z.string().min(3, 'Título deve ter no mínimo 3 caracteres').max(200, 'Título muito longo').optional(),
+    title: z
+      .string()
+      .min(3, 'Título deve ter no mínimo 3 caracteres')
+      .max(200, 'Título muito longo')
+      .optional(),
     description: z.string().max(1000, 'Descrição muito longa').optional(),
     status: z.enum(['PENDING', 'IN_PROGRESS', 'DONE']).optional(),
   })
