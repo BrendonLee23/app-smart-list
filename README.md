@@ -161,6 +161,29 @@ src/
 - Status válidos: `PENDING`, `IN_PROGRESS`, `DONE`
 - A API impõe limite de 10 tarefas — o frontend exibe toast de erro se atingido
 
+## Docker
+
+O **Dockerfile** do frontend usa um build single-stage. A URL da API é passada como `ARG` em build-time (necessário porque `NEXT_PUBLIC_*` são embutidas no bundle durante o `next build`):
+
+```dockerfile
+FROM node:20-alpine
+ARG NEXT_PUBLIC_API_URL=http://localhost:3333
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+RUN npm ci && npm run build
+```
+
+**Build manual da imagem:**
+
+```bash
+docker build \
+  --build-arg NEXT_PUBLIC_API_URL=https://api-smart-list.onrender.com \
+  -t app-smart-list .
+
+docker run -p 3000:3000 app-smart-list
+```
+
+> O banco de dados é levantado via `docker-compose.yml` no repositório da API — não há compose no frontend.
+
 ## Integração com a API
 
 - **API:** [api-smart-list](https://github.com/BrendonLee23/api-smart-list)
@@ -272,3 +295,4 @@ Se tivesse mais tempo, eu:
 ---
 
 Desenvolvido por **Brendo Moreira**
+
