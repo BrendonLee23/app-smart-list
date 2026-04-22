@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react'
+import { TooltipProvider } from '@/components/ui/tooltip'
 import { TaskCard } from '@/components/tasks/TaskCard'
 import { Task } from '@/types/task.types'
 
@@ -41,43 +42,46 @@ const mockTask: Task = {
   updatedAt: '2026-04-21T00:00:00.000Z',
 }
 
+const renderWithProvider = (ui: React.ReactElement) =>
+  render(<TooltipProvider>{ui}</TooltipProvider>)
+
 describe('TaskCard', () => {
   it('should render task title and description', () => {
-    render(<TaskCard task={mockTask} />)
+    renderWithProvider(<TaskCard task={mockTask} />)
 
     expect(screen.getByText('Tarefa de teste')).toBeInTheDocument()
-    expect(screen.getByText('Descrição da tarefa')).toBeInTheDocument()
+    expect(screen.getAllByText('Descrição da tarefa').length).toBeGreaterThan(0)
   })
 
   it('should render the correct status badge for PENDING', () => {
-    render(<TaskCard task={mockTask} />)
+    renderWithProvider(<TaskCard task={mockTask} />)
     expect(screen.getByText('Pendente')).toBeInTheDocument()
   })
 
   it('should render the correct status badge for IN_PROGRESS', () => {
-    render(<TaskCard task={{ ...mockTask, status: 'IN_PROGRESS' }} />)
+    renderWithProvider(<TaskCard task={{ ...mockTask, status: 'IN_PROGRESS' }} />)
     expect(screen.getByText('Em andamento')).toBeInTheDocument()
   })
 
   it('should render the correct status badge for DONE', () => {
-    render(<TaskCard task={{ ...mockTask, status: 'DONE' }} />)
+    renderWithProvider(<TaskCard task={{ ...mockTask, status: 'DONE' }} />)
     expect(screen.getByText('Concluída')).toBeInTheDocument()
   })
 
   it('should call openEditForm when edit button is clicked', () => {
-    render(<TaskCard task={mockTask} />)
+    renderWithProvider(<TaskCard task={mockTask} />)
     fireEvent.click(screen.getByLabelText('Editar tarefa'))
     expect(mockOpenEditForm).toHaveBeenCalledWith(mockTask)
   })
 
   it('should call openDeleteDialog when delete button is clicked', () => {
-    render(<TaskCard task={mockTask} />)
+    renderWithProvider(<TaskCard task={mockTask} />)
     fireEvent.click(screen.getByLabelText('Excluir tarefa'))
     expect(mockOpenDeleteDialog).toHaveBeenCalledWith(mockTask)
   })
 
   it('should not render description when it is null', () => {
-    render(<TaskCard task={{ ...mockTask, description: null }} />)
+    renderWithProvider(<TaskCard task={{ ...mockTask, description: null }} />)
     expect(screen.queryByText('Descrição da tarefa')).not.toBeInTheDocument()
   })
 })
