@@ -42,6 +42,7 @@ export function TaskList({ viewMode = 'cards' }: { viewMode?: 'cards' | 'list' }
   const activeTask = orderedTasks.find((t) => t.id === activeId)
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (tasks) setOrderedTasks(tasks)
   }, [tasks])
 
