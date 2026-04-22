@@ -1,11 +1,20 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useSyncExternalStore, useState } from 'react'
 import { Maximize2, Minimize2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
+const subscribe = () => () => {}
+const useIsClient = () =>
+  useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false,
+  )
+
 export function FullscreenToggle() {
   const [isFullscreen, setIsFullscreen] = useState(false)
+  const isClient = useIsClient()
 
   useEffect(() => {
     function onChange() {
@@ -22,6 +31,8 @@ export function FullscreenToggle() {
       await document.exitFullscreen()
     }
   }
+
+  if (!isClient) return <Button variant="ghost" size="icon" disabled aria-label="Tela cheia" />
 
   return (
     <Button
