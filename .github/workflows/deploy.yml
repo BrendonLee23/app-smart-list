@@ -27,6 +27,19 @@ jobs:
 
       - run: npm ci
 
+      - name: Validate environment variables
+        env:
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+        run: |
+          MISSING=0
+          if [ -z "$NEXT_PUBLIC_API_URL" ]; then
+            echo "Missing required environment variable: NEXT_PUBLIC_API_URL"
+            echo "Configure this secret in GitHub repository settings."
+            MISSING=1
+          fi
+          if [ "$MISSING" -eq 1 ]; then exit 1; fi
+          echo "Environment variables validated."
+
       - name: Run ESLint
         run: npm run lint
 
