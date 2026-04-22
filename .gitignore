@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# swc cache
+.swc/
+
+# ai agent files
+AGENTS.md
+CLAUDE.md
