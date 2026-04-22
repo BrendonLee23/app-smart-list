@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, type Variants } from 'framer-motion'
 import { Pencil, Trash2 } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -20,6 +20,16 @@ const statusVariant: Record<TaskStatus, 'default' | 'secondary' | 'outline'> = {
   DONE: 'default',
 }
 
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 20, scale: 0.97 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.3, ease: 'easeOut' },
+  },
+}
+
 interface TaskCardProps {
   task: Task
 }
@@ -30,19 +40,18 @@ export function TaskCard({ task }: TaskCardProps) {
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      transition={{ duration: 0.2 }}
+      variants={cardVariants}
+      exit={{ opacity: 0, y: -10, scale: 0.97, transition: { duration: 0.2 } }}
+      whileHover={{ y: -2, transition: { duration: 0.15 } }}
     >
-      <Card className="hover:shadow-md transition-shadow">
+      <Card className="h-full transition-shadow hover:shadow-md">
         <CardHeader className="flex flex-row items-start justify-between gap-2 pb-2">
           <CardTitle className="text-base leading-snug">{task.title}</CardTitle>
           <Badge variant={statusVariant[task.status]}>{statusLabel[task.status]}</Badge>
         </CardHeader>
         <CardContent className="flex flex-col gap-3">
           {task.description && (
-            <p className="text-sm text-muted-foreground line-clamp-3">{task.description}</p>
+            <p className="line-clamp-3 text-sm text-muted-foreground">{task.description}</p>
           )}
           <div className="flex justify-end gap-2">
             <Button
