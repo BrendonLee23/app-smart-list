@@ -13,7 +13,13 @@ export function useCreateTask() {
       toast.success('Tarefa criada com sucesso!')
     },
     onError: (error: Error) => {
-      toast.error(error.message)
+      const isLimitError = error.message.toLowerCase().includes('limite')
+      toast.error(
+        isLimitError
+          ? 'Limite de 10 tarefas atingido. Exclua tarefas existentes para liberar espaço.'
+          : error.message,
+        { duration: isLimitError ? 6000 : 4000 },
+      )
     },
   })
 }
